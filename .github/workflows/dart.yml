@@ -1,14 +1,15 @@
-name: Gerar APK
+name: Math Game - Flutter APK
 
 on:
   workflow_dispatch:
 
 jobs:
   build:
+    name: Compilar APK Android
     runs-on: ubuntu-latest
 
     steps:
-      - name: Baixar projeto
+      - name: Baixar código
         uses: actions/checkout@v4
 
       - name: Instalar Flutter
@@ -16,16 +17,16 @@ jobs:
         with:
           channel: stable
 
-      - name: Conferir Flutter
+      - name: Verificar Flutter
         run: flutter --version
 
-      - name: Criar arquivos Android
+      - name: Criar suporte Android
         run: flutter create --platforms=android .
 
-      - name: Instalar dependências
+      - name: Baixar dependências
         run: flutter pub get
 
-      - name: Gerar APK
+      - name: Compilar APK
         run: flutter build apk --release
 
       - name: Disponibilizar APK
@@ -33,9 +34,3 @@ jobs:
         with:
           name: math-game-apk
           path: build/app/outputs/flutter-apk/app-release.apk
-
-      # Your project will need to have tests in test/ and a dependency on
-      # package:test for this step to succeed. Note that Flutter projects will
-      # want to change this to 'flutter test'.
-      - name: Run tests
-        run: dart test
